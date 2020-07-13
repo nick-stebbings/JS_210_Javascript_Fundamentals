@@ -1,6 +1,6 @@
 .vscode/settings.json
 .eslintrc
 .prettierrc
-Small_Problems/node_modules/
+Small_Problems/node_modules/*
 Small_Problems/JavaScript_Basics/.vscode/launch.json
 .gitignore
