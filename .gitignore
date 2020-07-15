@@ -4,3 +4,8 @@
 Small_Problems/node_modules/*
 Small_Problems/JavaScript_Basics/.vscode/launch.json
 .gitignore
+.vscode/launch.json
+Small_Problems/.vscode/launch.json
+Small_Problems/.vscode/settings.json
+Small_Problems/Javascript_Language_Fundamentals/Debugging/frame.html
+Small_Problems/Small Problems/JS210_Easy_2/scratch.js

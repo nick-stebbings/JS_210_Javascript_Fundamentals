@@ -52,6 +52,3 @@ function twoNumberArithmetic() {
     console.log(`${num1} ${op} ${num2} = ${resultOfOperation}`);
   });
 }
-const obj = {
-  lukeSkywalker: lukeSkywalker,
-};
