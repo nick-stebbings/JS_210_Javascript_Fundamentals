@@ -1,63 +1,76 @@
-/*
-P:
+// P:
+// There are a lot of exciting classes offered in our region. We wrote a small script that checks which ones are still upcoming and compatible with our calendar. We must be available to attend all sessions of a particular class in order to sign up for it. We can always arrange that on weekends, but for weekdays we have to check whether our calendar is free.
 
-Write a function that takes a year as input and returns the century.
- - The return value should be a string that begins with the century number, 
-  - and ends with 'st', 'nd', 'rd', or 'th'
-   - as appropriate for that number.
+// Although the code below runs, something is wrong with it. Why is everything except for the Back To The Future Movie Night in the list of compatible classes?
 
-Rules: New centuries begin in years that end with 01. 
-So, the years 1901 - 2000 comprise the 20th century.
+const TODAY = toDate('2018-08-05');
 
-Examples:
-
-century(2000);        // "20th"
-century(2001);        // "21st"
-century(1965);        // "20th"
-century(256);         // "3rd"
-century(5);           // "1st"
-century(10103);       // "102nd"
-century(1052);        // "11th"
-century(1127);        // "12th"
-century(11201);       // "113th"
-
-
-E:
-
-D:
-  Input = num
-  Output = str
-
-A:
-   - Calculate the correct century number:
-    - IF the year <= 100, 1st
-    - IF the year >100, <= 200, 2nd
-    -  ...
-    - ceiling(year / 100)
-
-   - append the correct appendage to the century number
-   - CASE when ends in 1, 'st'
-     - when ends in 0, 'th' (or 11 - 13)
-     - when ends in 2, 'nd'
-     - when ends in 3, 'rd'
-*/
-function century(year) {
-  let centuryNum = Math.ceil(year / 100).toString(10);
-  let appendage;
-
-  switch (true) {
-    case !centuryNum.endsWith('11') && centuryNum.endsWith('1'):
-      appendage = 'st';
-      break;
-    case !centuryNum.endsWith('12') && centuryNum.endsWith('2'):
-      appendage = 'nd';
-      break;
-    case !centuryNum.endsWith('13') && centuryNum.endsWith('3'):
-      appendage = 'rd';
-      break;
-    default:
-      appendage = 'th';
-      break;
-  }
-  return centuryNum + appendage;
+function toDate(string) {
+  return new Date(`${string}T00:00:00`);
 }
+
+function toString(date) {
+  return `${date.getYear()}-${date.getMonth()}-${date.getDay()}`;
+}
+
+function isInThePast(date) {
+  return date < TODAY;
+}
+
+function isWeekday(date) {
+  return date.getDay() >= 1 && date.getDay() <= 5;
+}
+
+const myCalendar = {
+  '2018-08-13': ['JS debugging exercises'],
+  '2018-08-14': ["Read 'Demystifying Rails'", 'Settle health insurance'],
+  '2018-08-15': ["Read 'Demystifying Rails'"],
+  '2018-08-16': [],
+  '2018-08-30': ['Drone video project plan'],
+  '2018-09-10': ['Annual servicing of race bike'],
+  '2018-09-12': ['Study'],
+  '2018-11-02': ['Birthday Party'],
+  '2018-11-03': ['Birthday Party'],
+};
+
+const offeredClasses = {
+  'Back To The Future Movie Night': ['2018-07-30'],
+  'Web Security Fundamentals': ['2018-09-10', '2018-09-11'],
+  'Pranayama Yoga For Beginners': ['2018-08-30', '2018-08-31', '2018-09-01'],
+  "Mike's Hikes": ['2018-08-16'],
+  'Gordon Ramsey Master Class': ['2018-09-11', '2018-09-12'],
+  'Powerboating 101': ['2018-09-15', '2018-09-16'],
+  'Discover Parachuting': ['2018-11-02'],
+};
+
+function getCompatibleEvents(classes, calendar) {
+  function isAvailable(date) {
+    // This whole function needed to be rewritten as date.toString will not do formatting. Have to take out the constituent parts and form a zero padded string.
+    let month = date.getMonth() + 1;
+    let zeroedMonth =
+      month.toString(10).length === 1 ? '0' + month.toString(10) : month.toString(10);
+    let dateOfMonth = date.getDate().toString(10);
+    let zeroedDate = dateOfMonth.length === 1 ? '0' + dateOfMonth : dateOfMonth;
+    const dateStr = `${date.getFullYear()}-${zeroedMonth}-${zeroedDate}`;
+    return !myCalendar[dateStr] || myCalendar[dateStr].length === 0; // Typo!
+  }
+
+  const compatibleClasses = [];
+
+  Object.keys(classes).forEach((className) => {
+    const classDates = classes[className].map(toDate);
+
+    if (classDates.some(isInThePast)) {
+      return;
+    }
+
+    if (classDates.filter(isWeekday).every(isAvailable)) {
+      compatibleClasses.push(className);
+    }
+  });
+
+  return compatibleClasses;
+}
+
+console.log(getCompatibleEvents(offeredClasses, myCalendar));
+// expected: ["Mike's Hikes", "Powerboating 101"]

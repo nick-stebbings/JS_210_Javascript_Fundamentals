@@ -1,39 +1,45 @@
-/*
-P:
+// Figure out why not and fix the code so that it works as expected. You may also consider writing a few more test cases to insure that the input validation requirement is properly met.
 
-Madlibs is a simple game where you create a story template with "blanks" for words. You, or another player, then construct a list of words and place them into the story, creating an often silly or funny story as a result.
+const memberDirectory = {
+  'Jane Doe': '323-8293',
+  'Margaret Asbury': '989-1111',
+  'Callum Beech': '533-9090',
+  'Juanita Eastman': '424-1919',
+};
 
-Create a simple madlib program that prompts for a noun, a verb, an adverb, and an adjective, and injects them into a story that you create.
-
-E:
-
-Enter a noun: dog
-Enter a verb: walk
-Enter an adjective: blue
-Enter an adverb: quickly
-
-// console output
-Do you walk your blue dog quickly? That's hilarious!
-
-D:
-  Input =
-  Output =
-
-A:
-   -
-   -
-   -
-   -
-   -
-   -
-*/
-function madlibs() {
-  const rlSync = require('readline-sync');
-  let noun = rlSync.question('Enter a noun: \n');
-  let verb = rlSync.question('Enter a verb: \n');
-  let adjective = rlSync.question('Enter an adjective: \n');
-  let adverb = rlSync.question('Enter an adverb: \n');
-
-  console.log(`Do you ${verb} your ${adjective} ${noun} ${adverb} every day? What a chore!`);
+function isValidName(name) {
+  return /^[a-z]+ [a-z]+$/i.test(name);
 }
-madlibs();
+
+function isValidPhone(phone) {
+  return /^\d{3}-\d{4}$/.test(phone);
+}
+
+function validMemberInfo(name, phone) {
+  return isValidName(name) && isValidPhone(phone);
+}
+
+function addMember(name, phone) {
+  if (validMemberInfo(name, phone)) {
+    memberDirectory[name] = phone;
+  } else {
+    console.log('Invalid member information.');
+  }
+}
+
+addMember('Laura Carlisle', '444-2223'); //valid
+addMember('Rachel Garcia', '232-1191'); //valid
+
+addMember('Earl 5mith', '331-9191'); //invalid
+addMember('Madonna', '331-9191'); //invalid
+addMember('the pope', '331-9191'); //valid
+addMember('pope john paul ii', '331-9191'); //invalid
+addMember('Earl Smith', '3321-9191'); //invalid
+addMember('Earl Smith', '331-191'); //invalid
+addMember('Earl Smith', '331a-9191'); //invalid
+addMember('Earl Smith', '331-!9191'); //invalid
+addMember('Earl Smith', ''); //invalid
+addMember('', '244-1442'); //invalid
+addMember([], '244-1442'); //invalid
+
+console.log(memberDirectory);

@@ -1,55 +1,103 @@
-/*
-P:
+// P:
+// We want to implement a role-playing game and started working on the dice roll functionality. First, study the game code. Then take a look at the example output and information provided below.
 
-Write a function that determines the mean (average) of the three scores passed to it, and returns the letter associated with that grade.
+// Standard role-playing dice, ranging from 4 faces to 20,
+// specified in terms of minimum and maximum face value.
+const d4 = { min: 1, max: 4 };
+const d6 = { min: 1, max: 6 };
+const d8 = { min: 1, max: 8 };
+const d10 = { min: 0, max: 9 };
+const d12 = { min: 1, max: 12 };
+const d20 = { min: 1, max: 20 };
 
-Numerical score letter grade list:
+function roll({ max, min }) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-    90 <= score <= 100: 'A'
-    80 <= score < 90: 'B'
-    70 <= score < 80: 'C'
-    60 <= score < 70: 'D'
-    0 <= score < 60: 'F'
+// Toss one or more dice and sum up their face values.
+function toss(...args) {
+  const dice = Array.prototype.slice.call(args);
 
-Rules: 
-- Tested values are all between 0 and 100.
-- There is no need to check for negative values or values greater than 100.
+  return dice.map(roll).reduce((sum, value) => sum + value);
+}
 
-Examples:
+// Standard target roll tossing a 20-sided die,
+// with optional bonus and penalty dice.
+// Used to determine whether a character wanting to perform an action
+// succeeds or fails, based on whether the sum of the dice is higher
+// or lower than the relevant character trait.
+// (See below for examples.)
+function targetRoll(characterValue, bonus = { min: 0, max: 0 }, penalty = { min: 0, max: 0 }) {
+  let result = toss(d20, bonus, penalty);
+  // Normalize in case bonus or penalty push result out of the D20 range.
+  result = Math.max(1, result);
+  result = Math.min(20, result);
 
-getGrade(95, 90, 93);    // "A"
-getGrade(50, 50, 95);    // "D"
+  console.log(`--> ${result}`);
 
-
-E:
-
-D:
-  Input =
-  Output =
-
-A:
-   - calculate the mean, set it to a variable
-   - use a switch statement to compare 
-   - return grade from the function when the correct branch has been executed
-*/
-
-function getGrade(...args) {
-  let meanScore = args.reduce((sum, el) => sum + el) / args.length;
-  switch (true) {
-    case 90 <= meanScore && meanScore <= 100:
-      return 'A';
-    case 80 <= meanScore && meanScore < 90:
-      return 'B';
-    case 70 <= meanScore && meanScore < 80:
-      return 'C';
-    case 60 <= meanScore && meanScore < 70:
-      return 'D';
-    case 0 <= meanScore && meanScore < 60:
-      return 'F';
+  switch (result) {
+    case 1:
+      automaticFail();
+      break; //line added
+    case 20:
+      automaticSuccess();
+      break; //line added
+    default:
+      result >= characterValue ? success() : fail();
   }
 }
 
-console.log(getGrade(95, 90, 93)); // "A"
-console.log(getGrade(50, 50, 95)); // "D"
-console.log(getGrade(10, 20, 45)); // "F"
-console.log(getGrade(40, 50, 40)); // "F"
+function success() {
+  console.log('Your character succeeds.');
+}
+
+function fail() {
+  console.log('Your character fails.');
+}
+
+function automaticSuccess() {
+  console.log('Your character succeeds without effort. Glory!');
+}
+
+function automaticFail() {
+  console.log('Meagre attempt. Your character fails miserably.');
+}
+
+// Example character.
+const myCharacter = {
+  name: 'Jenkins',
+  strength: 4,
+  constitution: 6,
+  education: 11,
+  luck: 3,
+  sanity: 9,
+};
+
+// Example rolls:
+
+// Jenkins wants to break in a door with brute force,
+// so he has to roll against his strength value.
+targetRoll(myCharacter.strength);
+
+// Jenkins is challenged to a drinking contest.
+// In order to determine how much he can take, he rolls against his
+// constitution. Since he just ate a huge portion of pork roast, he
+// gets a D4 bonus die.
+targetRoll(myCharacter.constitution, { min: 0, max: 4 });
+
+// Jenkins found an ancient scroll and attempts to decipher it.
+// He has to roll against his education, in order to determine
+// whether he's able to read it.
+targetRoll(myCharacter.education);
+
+// When playing around with the above program, our three test rolls result in three random values that produce the sample output below (because each dice roll produces a random value, your output may differ). The outcome of rolling 16 looks correct, but the output when we rolled values 1 and 20 doesn't make sense. For each roll, only one outcome should be displayed. What is wrong with the code?
+
+// --> 1
+// Meagre attempt. Your character fails miserably.
+// Your character succeeds without effort. Glory!
+// Your character fails.
+// --> 20
+// Your character succeeds without effort. Glory!
+// Your character succeeds.
+// --> 16
+// Your character succeeds.
