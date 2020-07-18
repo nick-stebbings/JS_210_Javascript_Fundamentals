@@ -26,7 +26,7 @@ function valence(element) {
 
 function valenceOfMolecule(...args) {
   let sum = 0;
-  // When we used the arguments object, we could not call forEach
+  // Answer: When we used the arguments object, we could not call forEach
   // Reason: arguments is an array-like object, but not an array
   // Using the rest operator ..., args is an array containing 'H2' and 'O'
 
