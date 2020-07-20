@@ -32,13 +32,13 @@ function slice(array, begin, end) {
   return newArray;
 }
 
-console.log(slice([1, 2, 3], 1, 2)); // [2]
-console.log(slice([1, 2, 3], 2, 0)); // []
-console.log(slice([1, 2, 3], 5, 1)); // []
-console.log(slice([1, 2, 3], 0, 5)); // [1, 2, 3]
-const arr1 = [1, 2, 3];
-console.log(slice(arr1, 1, 3)); // [2, 3]
-console.log(arr1);
+// console.log(slice([1, 2, 3], 1, 2)); // [2]
+// console.log(slice([1, 2, 3], 2, 0)); // []
+// console.log(slice([1, 2, 3], 5, 1)); // []
+// console.log(slice([1, 2, 3], 0, 5)); // [1, 2, 3]
+// const arr1 = [1, 2, 3];
+// console.log(slice(arr1, 1, 3)); // [2, 3]
+// console.log(arr1);
 
 // splice:
 
@@ -52,7 +52,7 @@ console.log(arr1);
 
 // If no elements to add are provided, splice only removes elements from the array.
 
-//  Alg: IS TERRIBLE!
+//   alg:
 //  1 - remove a portion of the array, mutating it
 //   - SET the start to be required amount
 //  2 - IF objects are provided, insert them in the same place
@@ -91,11 +91,11 @@ function splice(array, start, deleteCount, ...objects) {
   return results;
 }
 
-// console.log(splice([1, 2, 3], 1, 2)); // [2, 3]
-// console.log(splice([1, 2, 3], 1, 3)); // [2, 3]
-// console.log(splice([1, 2, 3], 1, 0)); // []
-// console.log(splice([1, 2, 3], 0, 1)); // [1]
-// console.log(splice([1, 2, 3], 1, 0, 'a')); // []
+console.log(splice([1, 2, 3], 1, 2)); // [2, 3]
+console.log(splice([1, 2, 3], 1, 3)); // [2, 3]
+console.log(splice([1, 2, 3], 1, 0)); // []
+console.log(splice([1, 2, 3], 0, 1)); // [1]
+console.log(splice([1, 2, 3], 1, 0, 'a')); // []
 
 // const arr2 = [1, 2, 3];
 // console.log(splice(arr2, 1, 1, 'two')); // [2]
