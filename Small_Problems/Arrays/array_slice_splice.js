@@ -19,10 +19,14 @@
 // - PUSH to the results ary
 // - RET results
 
-function slice(array, begin, end) {
+function slice(array, ...args) {
+  console.log(args);
+  if (arguments.length === 1) {
+    return [...array];
+  }
   let newArray = [];
-  begin = Math.min(begin, array.length);
-  end = Math.min(end, array.length);
+  begin = Math.min(args[0], array.length);
+  end = Math.min(args[1], array.length);
   if (begin === end) {
     return newArray;
   }
@@ -39,6 +43,7 @@ function slice(array, begin, end) {
 // const arr1 = [1, 2, 3];
 // console.log(slice(arr1, 1, 3)); // [2, 3]
 // console.log(arr1);
+// console.log(slice([1])); // [1]
 
 // splice:
 
@@ -59,7 +64,7 @@ function slice(array, begin, end) {
 //   - SET the deleteCount to be required amount
 //     - IF > num elements from start --> end of ary
 //     - i.e. IF ary.length - 1 - start < deleteCount
-//  3 - return the elements removed
+// //  3 - return the elements removed
 function splice(array, start, deleteCount, ...objects) {
   let results = [];
 
@@ -79,37 +84,35 @@ function splice(array, start, deleteCount, ...objects) {
   if (objects !== []) {
     //Add the new elements
     for (const obj of objects) {
-      array.unshift(obj);
+      beginningOfArray.push(obj);
     }
   }
-  for (const obj of beginningOfArray) {
+  for (const obj of beginningOfArray.reverse()) {
     // Put the front back on
-    console.log(obj);
     array.unshift(obj);
   }
-  console.log(array);
   return results;
 }
 
-console.log(splice([1, 2, 3], 1, 2)); // [2, 3]
-console.log(splice([1, 2, 3], 1, 3)); // [2, 3]
-console.log(splice([1, 2, 3], 1, 0)); // []
-console.log(splice([1, 2, 3], 0, 1)); // [1]
-console.log(splice([1, 2, 3], 1, 0, 'a')); // []
+// console.log(splice([1, 2, 3], 1, 2)); // [2, 3]
+// console.log(splice([1, 2, 3], 1, 3)); // [2, 3]
+// console.log(splice([1, 2, 3], 1, 0)); // []
+// console.log(splice([1, 2, 3], 0, 1)); // [1]
+// console.log(splice([1, 2, 3], 1, 0, 'a')); // []
 
 // const arr2 = [1, 2, 3];
 // console.log(splice(arr2, 1, 1, 'two')); // [2]
 // console.log(arr2); // [1, "two", 3]
 
-// const arr3 = [1, 2, 3];
-// console.log(splice(arr3, 1, 2, 'two', 'three')); // [2, 3]
-// console.log(arr3); // [1, "two", "three"]
+const arr3 = [1, 2, 3];
+console.log(splice(arr3, 1, 2, 'two', 'three')); // [2, 3]
+console.log(arr3); // [1, "two", "three"]
 
-// const arr4 = [1, 2, 3];
-// console.log(splice(arr4, 1, 0)); // []
-// console.log(splice(arr4, 1, 0, 'a')); // []
-// console.log(arr4); // [1, "a", 2, 3]
+const arr4 = [1, 2, 3];
+console.log(splice(arr4, 1, 0)); // []
+console.log(splice(arr4, 1, 0, 'a')); // []
+console.log(arr4); // [1, "a", 2, 3]
 
-// const arr5 = [1, 2, 3];
-// splice(arr5, 0, 0, 'a'); // []
-// arr5; // ["a", 1, 2, 3]
+const arr5 = [1, 2, 3];
+splice(arr5, 0, 0, 'a'); // []
+arr5; // ["a", 1, 2, 3]

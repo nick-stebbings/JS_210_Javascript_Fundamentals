@@ -21,8 +21,12 @@ function timeOfDay(deltaMinutes) {
 
   let hours = Math.floor(deltaMinutes / MINUTES_PER_HOUR);
   let minutes = deltaMinutes % MINUTES_PER_HOUR;
+  let baseDate = new Date(2010, 0, 1);
+  baseDate.setHours(hours);
+  baseDate.setMinutes(minutes);
 
-  return `${padWithZeroes(hours, 2)}:${padWithZeroes(minutes, 2)}`;
+  // return `${padWithZeroes(hours, 2)}:${padWithZeroes(minutes, 2)}`;
+  return baseDate.toTimeString().slice(0, 5);
 }
 
 function padWithZeroes(number, length) {
@@ -49,10 +53,10 @@ A:
    -
 */
 
-timeOfDay(0); // "00:00"
-timeOfDay(-3); // "23:57"
-timeOfDay(35); // "00:35"
-timeOfDay(-1437); // "00:03"
-timeOfDay(3000); // "02:00"
-timeOfDay(800); // "13:20"
-timeOfDay(-4231); // "01:29"
+console.log(timeOfDay(0)); // "00:00"
+console.log(timeOfDay(-3)); // "23:57"
+console.log(timeOfDay(35)); // "00:35"
+console.log(timeOfDay(-1437)); // "00:03"
+console.log(timeOfDay(3000)); // "02:00"
+console.log(timeOfDay(800)); // "13:20"
+console.log(timeOfDay(-4231)); // "01:29"

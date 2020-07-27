@@ -38,6 +38,7 @@ const array2 = [
 console.log(getSelectedColumns(array1, [0]));
 console.log(getSelectedColumns(array1, [0, 2]));
 console.log(getSelectedColumns(array2, [1, 2]));
+
 // [[1]];            expected: [[1, 4, 7]]
 // [[1, 4], [3, 6]]; expected: [[1, 4, 7], [3, 6, 9]]
 // [[2, 2], [3, 3]]; expected: [[2, 2, 2], [3, 3, 3]]

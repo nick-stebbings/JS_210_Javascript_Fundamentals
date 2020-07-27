@@ -1,45 +1,29 @@
-// P
-// Todd wrote some simple code in an attempt to log his shop's financial transactions. Each time he makes a sale or spends money on inventory, he logs that deposit or withdrawal via the logTransaction function. His code also intends to ensure that each transaction logged is a valid numerical amount. At the end of each day, he displays his total gain or loss for the day with transactionTotal.
+// Run the following code. Why is every warning displayed twice? Change the code so that each warning is displayed only once, as intended.
 
-// Test out the code yourself. Can you spot the problem and fix it?
+const species = ['wolf', 'human', 'wasp', 'squirrel', 'weasel', 'dinosaur'];
+const isMidnight = true;
+const isFullmoon = true;
 
-const transactionLog = [];
-
-function processInput(input) {
-  const numericalData = parseFloat(input);
-
-  if (isNaN(numericalData)) {
-    throw new Error('Data could not be converted to numerical amount.');
-  }
-
-  return numericalData;
+function isTransformable(species) {
+  return species[0] === 'w';
 }
 
-function logTransaction() {
-  let data = prompt('Please enter the transaction amount: ');
-
-  try {
-    data = processInput(data);
-    transactionLog.push(data);
-
-    alert('Thank you. Data accepted.');
-  } catch {
-    alert(error.message);
-  }
+function transform(species) {
+  return `were${species}`;
 }
 
-function transactionTotal() {
-  let total = 0;
+for (let i = 0; i < species.length; i++) {
+  const thisSpecies = species[i];
+  var newSpecies;
 
-  for (let i = 0; i < transactionLog.length; i++) {
-    total += transactionLog[i];
+  if (isMidnight && isFullmoon && isTransformable(thisSpecies)) {
+    newSpecies = transform(thisSpecies);
+  } else {
+    // Added this branch
+    continue;
   }
 
-  return total;
+  if (newSpecies) {
+    console.log(`Beware of the ${newSpecies}!`);
+  }
 }
-
-logTransaction();
-logTransaction();
-logTransaction();
-
-console.log(transactionTotal());

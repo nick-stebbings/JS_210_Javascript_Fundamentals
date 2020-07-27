@@ -3,11 +3,10 @@
 
 // Test out the code yourself. Can you spot the problem and fix it?
 
-// const transactionLog = [];
+const transactionLog = [];
 
 function processInput(input) {
   const numericalData = parseFloat(input);
-
   if (isNaN(numericalData)) {
     throw new Error('Data could not be converted to numerical amount.');
   }
@@ -23,7 +22,8 @@ function logTransaction() {
     transactionLog.push(data);
 
     alert('Thank you. Data accepted.');
-  } catch {
+  } catch (error) {
+    // Added an error argument to the catch block
     alert(error.message);
   }
 }
@@ -43,5 +43,3 @@ logTransaction();
 logTransaction();
 
 console.log(transactionTotal());
-
-// Answer:
