@@ -15,7 +15,6 @@ findFibonacciIndexByLength(2);       // 7
 findFibonacciIndexByLength(10);      // 45
 findFibonacciIndexByLength(16);      // 74
 
-
 E:
 
 D:
@@ -61,24 +60,17 @@ let memoisedFibRecurse = memoiser(fibRecurse);
 // Stop and return index of last cached fib number WHEN the length is no longer < than n
 
 function findFibonacciIndexByLength(n) {
+  let cache = [1, 1];
   //You would need to also make this recursive to see any gains from memoisation.
   // Algo:
   // BASE condition, n = 1, then return 1
   // IF a fib with length n exists in the fibRecurse memo, return the first of its type,
   // ELSE try with length n + 1
-
-  let fibTracker = memoiser(fibRecurse);
-  let fibIndex = 1;
-  fibTracker.memoisedFunction(fibIndex);
-
-  for (
-    ;
-    fibTracker.cache[fibIndex].toString().length < n;
-    fibTracker.memoisedFunction(++fibIndex)
-  ) {
-    continue;
+  if ( lastFib.length == n) {
+    return cache[n];
+  } else {
+    return findFibonacciIndexByLength()
   }
-  return fibIndex + 1;
 }
 
 // console.log(findFibonacciIndexByLength(2));

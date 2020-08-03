@@ -1,89 +1,53 @@
 /*
 P:
-Write a function that implements the Caesar Cipher. The Caesar Cipher is one of the earliest and simplest ways to encrypt plaintext so that a message can be transmitted securely. It is a substitution cipher in which each letter in a plaintext is substituted by the letter located a given number of positions away in the alphabet. For example, if the letter 'A' is right-shifted by 3 positions, it will be substituted with the letter 'D'. This shift value is often referred to as the key. The "encrypted plaintext" (ciphertext) can be decoded using this key value.
+You have a bank of switches before you, numbered from 1 to n. Every switch is connected to exactly one light that is initially off. You walk down the row of switches and toggle every one of them. You walk back to the beginning of the row and start another pass. On this second pass, you toggle switches 2, 4, 6, and so on. On the third pass, you go back to the beginning again, this time toggling switches 3, 6, 9, and so on. You continue to repeat this process until you have gone through n repetitions.
 
-The Caesar Cipher only encrypts letters (including both lower and upper case). Any other character is left as is. The substituted letters are in the same letter case as the original letter. If the key value for shifting exceeds the length of the alphabet, it wraps around from the beginning.
+Write a program that takes one argument—the total number of switches—and returns an array of the lights that are on after n repetitions.
+
+Examples:
+
+function lightsOn(switches) {
+  // ...
+}
+
+lightsOn(5);        // [1, 4]
+// Detailed result of each round for `5` lights
+// Round 1: all lights are on
+// Round 2: lights 2 and 4 are now off;     1, 3, and 5 are on
+// Round 3: lights 2, 3, and 4 are now off; 1 and 5 are on
+// Round 4: lights 2 and 3 are now off;     1, 4, and 5 are on
+// Round 5: lights 2, 3, and 5 are now off; 1 and 4 are on
+
+lightsOn(100);      // [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+
 E:
 
 D:
-  Input =
-  Output =
+  Input = number
+  Output = array
 
 A:
-   -
-   -
-   -
-   -
-   -
-   -
+  - SET an array of n '0's
+   - n times DO..
+     - iterate through the array
+     - IF the index of the element divides evenly by n, invert the element
+   - mutate the array, mapping to index if the element is 1
+   - reject all 0's from the array and return
+
+    RECURSIVE
+    - if n == 0, return array mapped to index*el, with 0's removed
+    - else do one run through of the array, then pass the result to a recursive call with n-1
+    - This doesn't work as by decrementing n you also mess up the number that you need to alternate switches with! Might not be possble, or maybe possible with a memo, as you could use memo.length - n
 */
-function caesarEncrypt(test, shift) {
-  if (shift % 26 == 0) {
-    return test;
-  } else {
-    let cipher = {};
-    const ALPHA = [
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F',
-      'G',
-      'H',
-      'I',
-      'J',
-      'K',
-      'L',
-      'M',
-      'N',
-      'O',
-      'P',
-      'Q',
-      'R',
-      'S',
-      'T',
-      'U',
-      'V',
-      'W',
-      'X',
-      'Y',
-      'Z',
-    ];
 
-    let mappedChars = [...test].map((char) => {
-      if (!char.match(/[A-Z]/i)) {
-        return char;
-      } else if (cipher[char] == undefined) {
-        return (cipher[char] = /[a-z]/.test(char)
-          ? translate(char).toLowerCase()
-          : translate(char));
-      } else {
-        return cipher[char];
-      }
-    });
-    function translate(char) {
-      let charIndex = ALPHA.indexOf(char.toUpperCase());
-      return ALPHA[(charIndex + shift) % 26];
-    }
-    return mappedChars.join``;
+function lightsOn(n) {
+  let lightsAry = [-1].concat([...'0'.repeat(n)].map( l => +l ));
+  for (let i = 1; i <= n; i++) {
+    lightsAry.forEach((light, index) => {
+      lightsAry[index] = (index % i == 0 ? 1 - light : light);
+    })
   }
+  return lightsAry.map((l, idx) => l * idx).filter(l => l > 0);
 }
-
-// simple shift
-console.log(caesarEncrypt('A', 0)); // "A"
-console.log(caesarEncrypt('A', 3)); // "D"
-
-// wrap around
-console.log(caesarEncrypt('y', 5)); // "d"
-console.log(caesarEncrypt('a', 47)); // "v"
-
-// all letters
-console.log(caesarEncrypt('ABCDEFGHIJKLMNOPQRSTUVWXYZ', 25));
-// "ZABCDEFGHIJKLMNOPQRSTUVWXY"
-console.log(caesarEncrypt('The quick brown fox jumps over the lazy dog!', 5));
-// "Ymj vznhp gwtbs ktc ozrux tajw ymj qfed itl!"
-
-// many non-letters
-console.log(caesarEncrypt('There are, as you can see, many punctuations. Right?; Wrong?', 2));
-// "Vjgtg ctg, cu aqw ecp ugg, ocpa rwpevwcvkqpu. Tkijv?; Ytqpi?"
+console.log(lightsOn(5));
+console.log(lightsOn(100));

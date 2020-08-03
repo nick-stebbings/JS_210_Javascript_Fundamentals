@@ -43,7 +43,7 @@ E:
 
 D:
   Input = ary
-  Output = new ary
+  Output = mutated ary
 
 A:
    - set a flag variable to false for if a swap was made
@@ -67,12 +67,15 @@ console.log(bubbleSort(array3));
 console.log(array3); // ["Alice", "Bonnie", "Kim", "Pete", "Rachel", "Sue", "Tyler"]
 
 function bubbleSort(ary) {
-  for (let i = 0; i < ary.length; i++) {
-    for (let j = 0; j < ary.length - i; j++) {
-      if (ary[j] > ary[j + 1]) {
-        ary.splice(i, 2, ary[j + 1], ary[j]);
-      }
+  let flag;
+  do {
+    flag =false;
+    for (let i = 0; i < ary.length; i++) {
+        if (ary[i+1] < ary[i]) {
+          ary.splice(i, 2, ary[i + 1], ary[i]);
+          flag = true
+        }
     }
-  }
+  } while (flag);
   return ary;
 }
