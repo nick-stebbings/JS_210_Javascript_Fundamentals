@@ -20,16 +20,13 @@
 // - RET results
 
 function slice(array, ...args) {
-  console.log(args);
   if (arguments.length === 1) {
     return [...array];
   }
   let newArray = [];
-  begin = Math.min(args[0], array.length);
-  end = Math.min(args[1], array.length);
-  if (begin === end) {
-    return newArray;
-  }
+  let begin = Math.min(args[0], array.length);
+  let end = Math.min(args[1], array.length);
+
   for (begin; begin < end; begin++) {
     newArray.push(array[begin]);
   }
@@ -66,32 +63,25 @@ function slice(array, ...args) {
 //     - i.e. IF ary.length - 1 - start < deleteCount
 // //  3 - return the elements removed
 function splice(array, start, deleteCount, ...objects) {
-  let results = [];
-
   deleteCount = Math.min(array.length - start, deleteCount);
   start = Math.min(array.length, start);
-
-  let beginningOfArray = []; // Remove the front of array
+  
+  let beginningOfArray = [];
   for (let index = 0; index < array.slice(0, start).length; index++) {
     beginningOfArray.push(array.shift());
   }
-
+  
+  let capturedElements = [];
   for (let index = 0; index < deleteCount; index++) {
-    // Remove and capture deleted elements
-    results.push(array.shift());
+    capturedElements.push(array.shift());
   }
 
   if (objects !== []) {
-    //Add the new elements
-    for (const obj of objects) {
-      beginningOfArray.push(obj);
-    }
+    beginningOfArray.push(...objects);
   }
-  for (const obj of beginningOfArray.reverse()) {
-    // Put the front back on
-    array.unshift(obj);
-  }
-  return results;
+
+  array.unshift(...beginningOfArray);
+  return capturedElements;
 }
 
 // console.log(splice([1, 2, 3], 1, 2)); // [2, 3]
@@ -114,5 +104,5 @@ console.log(splice(arr4, 1, 0, 'a')); // []
 console.log(arr4); // [1, "a", 2, 3]
 
 const arr5 = [1, 2, 3];
-splice(arr5, 0, 0, 'a'); // []
-arr5; // ["a", 1, 2, 3]
+console.log(splice(arr5, 0, 0, 'a')); // []
+console.log(arr5); // ["a", 1, 2, 3]

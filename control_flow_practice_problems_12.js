@@ -38,15 +38,34 @@ A:
    -
 */
 
+/*Prime algo 
+- SET a var for the sqroot of the num
+- ITERATE up until sqroot
+- RETURN FALSE if the num divides into your primeCandidate
+- RETURN TRUE at the end
+
+*/
+
 function isPrime(num) {
-  for (let index = 3; index < num; index++) {
-    for (let j = 3 ; j < index; j++) {
-      let root = Math.sqrt()
-      return   
+  if (num <= 2) return false;
+  let root = Math.sqrt(num)
+  for (let index = 3; index < root; index += 2) {
+      if (num % index == 0) return false;
+  }
+  return true;
+}
+
+function checkGoldbach(num) {
+  if (num < 4 || num % 2 != 0) return null;
+  for (let i = 3; i < num / 2; i += 2) {
+    if (isPrime(i)) {
+      if (isPrime(num - i)) {
+        console.log(i, num - i);
+      }
     }
-    
   }
 }
-function checkGoldbach(num) {
-  if (num <= 4 || num % 2 != 0) return null;
-}
+console.log(checkGoldbach(3)); 
+console.log(checkGoldbach(4)); 
+checkGoldbach(12);
+checkGoldbach(100);
