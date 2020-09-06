@@ -32,5 +32,14 @@ function swapCharCase(c) {
   return /[a-z]/.test(c) ? c.toUpperCase() : c.toLowerCase();
 }
 
-console.log(swapCase('CamelCase'));
-console.log(swapCase('Tonight on XYZ-TV'));
+// console.log(swapCase('CamelCase'));
+// console.log(swapCase('Tonight on XYZ-TV'));
+
+console.log(swapCase1('CamelCase'));
+console.log(swapCase1('Tonight on XYZ-TV'));
+
+function swapCase1(str) {
+  return str.replace(/([A-Z]*)([a-z]*)/g, (_, uppers, lowers) => {
+    return uppers.toLowerCase() + lowers.toUpperCase();
+  })
+}

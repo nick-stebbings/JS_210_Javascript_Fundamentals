@@ -49,7 +49,7 @@ function leadingSubstrings(str) {
 
 function substrings(str) {
   let results = [];
-  [...str].forEach((char, idx) => {
+  [...str].forEach((_, idx) => {
     results.push(leadingSubstrings([...str].slice(idx).join``));
   });
   return results;
